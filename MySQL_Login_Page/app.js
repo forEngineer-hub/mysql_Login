@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path")
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const app = express();
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
@@ -11,10 +11,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.set('view engine', 'html');
 const db = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    host: 'localhost',
+    user: 'root',
+    password:'NewPassword',
+    database: 'sql_login'
 });
 
 db.connect((err) => {
@@ -24,8 +24,7 @@ db.connect((err) => {
         console.log("MYSQL CONNECTED")
     }
 })
-// Define Routes
-app.use('/', require('./routes/pages'));
-app.use('/auth', require('./routes/auth'));
+
+app.use('/', require('./routes/index'));
 
 app.listen(5000)

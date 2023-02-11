@@ -1,13 +1,13 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { promisify } = require("util");
 
 const db = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    host: 'localhost',
+    user: 'root',
+    password:'NewPassword',
+    database: 'sql_login'
 });
 exports.login = async (req, res) => {
     try {
@@ -89,13 +89,13 @@ exports.isLoggedIn = async (req, res, next) => {
             );
             console.log(decoded);
 
-            // 2. Check if the user still exist
+            // 2. Check if the users still exist
             db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (err, results) => {
                 console.log(results);
                 if (!results) {
                     return next();
                 }
-                req.user = results[0];
+                req.users = results[0];
                 return next();
             });
         } catch (err) {
