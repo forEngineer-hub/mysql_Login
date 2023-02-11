@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/auth.js");
+const usersController = require("../controllers/user.js");
 
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
@@ -32,6 +33,8 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
     }
 })
 
+//insert users
+router.post('/users', usersController.batchInsert);
 
 
 module.exports = router;
